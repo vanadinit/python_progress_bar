@@ -178,18 +178,19 @@ def __print_bar_text(percentage):
     if RATE_BAR:
         # Create right side of progress bar with statistics
         r_bar = __prepare_r_bar(percentage)
-        bar_size = cols - 18 - len(r_bar)
+        bar_size = cols - 20 - len(r_bar)
     else:
         r_bar = ""
-        bar_size = cols - 17
+        bar_size = cols - 19
 
     # Prepare progress bar
-    complete_size = (bar_size * percentage) / 100
+    complete_size = round((bar_size * percentage) / 100)
     remainder_size = bar_size - complete_size
-    progress_bar = f"[{color}{'#' * int(complete_size)}{RESTORE_FG}{RESTORE_BG}{'.' * int(remainder_size)}]"
+    progress_bar = f"[{color}{'#' * complete_size}{RESTORE_FG}{RESTORE_BG}{'.' * remainder_size}]"
+    percentage_str = ' 100' if percentage == 100 else f"{percentage:4.1f}"
 
     # Print progress bar
-    __print_control_code(f" Progress {percentage}% {progress_bar} {r_bar}\r")
+    __print_control_code(f" Progress {percentage_str}% {progress_bar} {r_bar}\r")
 
 
 def __prepare_r_bar(n):
